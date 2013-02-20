@@ -3,7 +3,6 @@ main: ${project.mainclass}
 version: ${project.version}
 description: ${project.description}
 website: ${project.url}
-softdepend: [Multiverse-Core, My Worlds, MystCraft, Transporter]
 authors: [bigscary, Diemex, Mitsugaru]
 commands:
     ehm:
