@@ -8,6 +8,8 @@ import me.ryanhamshire.ExtraHardMode.service.ConfigNode;
 
 /**
  * Configuration options of the root config.yml file.
+ * 
+ * TODO max y coordinate for explosions.
  */
 public enum RootNode implements ConfigNode {
    /**
