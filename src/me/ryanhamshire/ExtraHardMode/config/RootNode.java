@@ -8,8 +8,6 @@ import me.ryanhamshire.ExtraHardMode.service.ConfigNode;
 
 /**
  * Configuration options of the root config.yml file.
- * 
- * TODO max y coordinate for explosions.
  */
 public enum RootNode implements ConfigNode {
    /**
@@ -236,6 +234,10 @@ public enum RootNode implements ConfigNode {
     * explosions disable option, needed to dodge bugs in popular plugins
     */
    WORK_AROUND_EXPLOSION_BUGS("ExtraHardMode.WorkAroundOtherPluginsExplosionBugs", VarType.BOOLEAN, false),
+   /**
+    * max y coordinate for explosions.
+    */
+   EXPLOSION_MAX_Y("ExtraHardMode.Explosions.MaxYCoord", VarType.INTEGER, 64),
    /**
     * which materials beyond sand and gravel should be subject to gravity
     */

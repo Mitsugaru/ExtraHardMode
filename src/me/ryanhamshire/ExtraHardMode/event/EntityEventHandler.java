@@ -131,12 +131,20 @@ public class EntityEventHandler implements Listener {
    @EventHandler(priority = EventPriority.NORMAL)
    public void onExplosion(EntityExplodeEvent event) {
       World world = event.getLocation().getWorld();
-      if(!plugin.getEnabledWorlds().contains(world))
+      if(!plugin.getEnabledWorlds().contains(world)) {
          return;
+      }
 
       EntityModule module = plugin.getModuleForClass(EntityModule.class);
       RootConfig config = plugin.getModuleForClass(RootConfig.class);
       Entity entity = event.getEntity();
+
+      // Check on the y coordinate limit in the config.
+      int maxY = config.getInt(RootNode.EXPLOSION_MAX_Y);
+      if(event.getLocation().getY() >= maxY) {
+         event.setCancelled(true);
+         return;
+      }
 
       // FEATURE: bigger TNT booms, all explosions have 100% block yield
       if(config.getBoolean(RootNode.BETTER_TNT)) {
@@ -238,22 +246,16 @@ public class EntityEventHandler implements Listener {
          Fireball fireball = (Fireball) entity;
          if(fireball.getShooter() != null && fireball.getShooter().getType() == EntityType.GHAST) {
             event.setCancelled(true);
-            entity.getWorld().createExplosion(entity.getLocation(), 4F, true); // same
-                                                                               // as
-                                                                               // vanilla
-                                                                               // TNT,
-                                                                               // plus
-                                                                               // fire
+            // same as vanilla TNT, plus fire
+            entity.getWorld().createExplosion(entity.getLocation(), 4F, true);
          }
       }
 
       // FEATURE: bigger creeper explosions (for more-frequent cave-ins)
       if(entity != null && entity instanceof Creeper && !config.getBoolean(RootNode.WORK_AROUND_EXPLOSION_BUGS)) {
          event.setCancelled(true);
-         entity.getWorld().createExplosion(entity.getLocation(), 3F, false); // same
-                                                                             // as
-                                                                             // vanilla
-                                                                             // TNT
+         // same as vanilla TNT
+         entity.getWorld().createExplosion(entity.getLocation(), 3F, false);
       }
    }
 
