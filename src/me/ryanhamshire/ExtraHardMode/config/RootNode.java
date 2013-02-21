@@ -239,6 +239,10 @@ public enum RootNode implements ConfigNode {
     */
    EXPLOSION_MAX_Y("ExtraHardMode.Explosions.MaxYCoord", VarType.INTEGER, 64),
    /**
+    * Protect blocks from explosion at and above max y coordinate
+    */
+   EXPLOSION_PROTECT_BLOCKS_ABOVE_MAX("ExtraHardMode.Explosions.ProtectBlocksAboveMaxY", VarType.BOOLEAN, true),
+   /**
     * which materials beyond sand and gravel should be subject to gravity
     */
    MORE_FALLING_BLOCKS("ExtraHardMode.AdditionalFallingBlocks", VarType.LIST, new DefaultFallingBlocks());

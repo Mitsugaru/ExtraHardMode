@@ -170,6 +170,15 @@ public class EntityEventHandler implements Listener {
          }
       }
 
+      if(config.getBoolean(RootNode.EXPLOSION_PROTECT_BLOCKS_ABOVE_MAX)) {
+         Iterator<Block> iterator = event.blockList().iterator();
+         while(iterator.hasNext()) {
+            if(iterator.next().getLocation().getY() >= maxY) {
+               iterator.remove();
+            }
+         }
+      }
+
       // FEATURE: ender dragon fireballs may summon minions and/or set fires
       if(entity != null && entity.getType() == EntityType.FIREBALL) {
          Fireball fireball = (Fireball) entity;
@@ -571,6 +580,8 @@ public class EntityEventHandler implements Listener {
    public void onEntityDeath(EntityDeathEvent event) {
       LivingEntity entity = event.getEntity();
       World world = entity.getWorld();
+
+      event.getEntity().getLocation();
 
       if(!plugin.getEnabledWorlds().contains(world)) {
          return;
