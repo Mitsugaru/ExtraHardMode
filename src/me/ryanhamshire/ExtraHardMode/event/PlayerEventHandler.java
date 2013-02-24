@@ -136,7 +136,7 @@ public class PlayerEventHandler implements Listener {
          Block block = event.getClickedBlock();
 
          Material materialInHand = player.getItemInHand().getType();
-         if(materialInHand == Material.INK_SACK && !plugin.getModuleForClass(BlockModule.class).plantDies(block, Byte.MAX_VALUE)) {
+         if(materialInHand == Material.INK_SACK && plugin.getModuleForClass(BlockModule.class).plantDies(block, Byte.MAX_VALUE)) {
             event.setCancelled(true);
             block.setType(Material.LONG_GRASS); // dead shrub
          }
