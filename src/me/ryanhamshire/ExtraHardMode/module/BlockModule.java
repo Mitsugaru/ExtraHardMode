@@ -86,8 +86,8 @@ public class BlockModule extends EHMModule {
     */
    public boolean plantDies(Block block, byte newDataValue) {
       World world = block.getWorld();
-      RootConfig config = plugin.getModuleForClass(RootConfig.class);
-      if(!plugin.getEnabledWorlds().contains(world) || !config.getBoolean(RootNode.WEAK_FOOD_CROPS)) {
+      RootConfig root = plugin.getModuleForClass(RootConfig.class);
+      if(!plugin.getEnabledWorlds().contains(world.getName()) || !root.getBoolean(RootNode.WEAK_FOOD_CROPS)) {
          return false;
       }
 
@@ -97,9 +97,8 @@ public class BlockModule extends EHMModule {
       }
 
       Material material = block.getType();
-      if(material == Material.CROPS || material == Material.MELON_STEM || material == Material.CARROT || material == Material.PUMPKIN_STEM
-            || material == Material.POTATO) {
-         int deathProbability = 25;
+      if(material == Material.CROPS || material == Material.CARROT || material == Material.POTATO) {
+         int deathProbability = root.getInt(RootNode.WEAK_FOOD_PERCENTAGE);
 
          // plants in the dark always die
          if(block.getLightFromSky() < 10) {
@@ -108,7 +107,7 @@ public class BlockModule extends EHMModule {
             Biome biome = block.getBiome();
 
             // the desert environment is very rough on crops
-            if(biome == Biome.DESERT || biome == Biome.DESERT_HILLS) {
+            if(biome == Biome.DESERT || biome == Biome.DESERT_HILLS && root.getBoolean(RootNode.WEAK_AIRD_DESERT)) {
                deathProbability += 50;
             }
 
@@ -143,12 +142,9 @@ public class BlockModule extends EHMModule {
 
    @Override
    public void starting() {
-      RootConfig config = plugin.getModuleForClass(RootConfig.class);
-      // try to load the list from the config file
-      List<String> moreFallingBlocksList = config.getStringList(RootNode.MORE_FALLING_BLOCKS);
-
       // parse this final list of additional falling blocks
-      for(String materialName : moreFallingBlocksList) {
+      RootConfig root = plugin.getModuleForClass(RootConfig.class);
+      for(String materialName : root.getStringList(RootNode.MORE_FALLING_BLOCKS)) {
          Material material = Material.getMaterial(materialName);
          if(material == null) {
             plugin.getLogger().warning("Additional Falling Blocks Configuration: Material not found: " + materialName + ".");

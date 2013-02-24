@@ -32,7 +32,7 @@ public class WebCleanupTask implements Runnable {
    /**
     * List of blocks to check.
     */
-   private final List<Block> webs = new ArrayList<>();
+   private final List<Block> webs = new ArrayList<Block>();
 
    /**
     * Constructor.

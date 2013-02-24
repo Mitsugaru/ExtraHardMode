@@ -4,7 +4,7 @@
     <!-- Project properties. -->
     <groupId>me.ryanhamshire</groupId>
     <artifactId>ExtraHardMode</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
     <name>ExtraHardMode</name>
     <description>New game rules and mechanics for Minecraft.</description>
     <url>http://dev.bukkit.org/server-mods/fun-hard-mode</url>

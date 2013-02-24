@@ -48,7 +48,7 @@ public class DragonAttackPatternTask implements Runnable {
    /**
     * List of players fighting the dragon.
     */
-   private final List<Player> playersFightingDragon = new ArrayList<>();
+   private final List<Player> playersFightingDragon = new ArrayList<Player>();
 
    /**
     * Constructor.
@@ -75,12 +75,12 @@ public class DragonAttackPatternTask implements Runnable {
          return;
 
       World world = this.dragon.getWorld();
-      RootConfig config = plugin.getModuleForClass(RootConfig.class);
 
       // if the player has been defeated
       if(!this.player.isOnline() || world != this.player.getWorld() || this.player.isDead()) {
          // announce the combat result
          this.playersFightingDragon.remove(this.player);
+         RootConfig config = plugin.getModuleForClass(RootConfig.class);
          if(config.getBoolean(RootNode.ENDER_DRAGON_COMBAT_ANNOUNCEMENTS) && !this.player.isDead()) {
             plugin.getServer().broadcastMessage(this.player.getName() + " has been defeated by the dragon!");
          }

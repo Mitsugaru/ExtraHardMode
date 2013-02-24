@@ -43,7 +43,7 @@ public class DataStoreModule extends EHMModule {
    /**
     * List of previous locations.
     */
-   private final List<SimpleEntry<Player, Location>> previousLocations = new CopyOnWriteArrayList<>();
+   private final List<SimpleEntry<Player, Location>> previousLocations = new CopyOnWriteArrayList<SimpleEntry<Player, Location>>();
 
    /**
     * Constructor.
@@ -109,8 +109,7 @@ public class DataStoreModule extends EHMModule {
       public long lastMessageTimestamp = 0;
       /**
        * Cached weight status.
-       * TODO need to check and see that I didn't just
-       * break this.
+       * TODO need to check and see that I didn't just break this.
        */
       public boolean cachedWeightStatus = false;
    }

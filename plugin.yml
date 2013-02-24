@@ -11,7 +11,7 @@ commands:
 permissions:
     ExtraHardMode.*:
         description: Grant ALL the permission nodes
-        default: op
+        default: no
         children:
            ExtraHardMode.admin: true
            ExtraHardMode.bypass: true
@@ -26,9 +26,14 @@ permissions:
     ExtraHardMode.bypass:
         description: Grants bypass permission for some extra hard mode rules.
         default: op
+        children:
+           ExtraHardMode.bypass.creepers: true
+    ExtraHardMode.bypass.creepers:
+        description: Player with this permission will bypass all creeper features, but the flaming creepers
+        default: op
     ExtraHardMode.silent.*:
         description: Grants ALL silent permission nodes
-        default: op
+        default: no
         children:
            ExtraHardMode.silent.stone_mining_help: true
            ExtraHardMode.silent.no_placing_ore_against_stone: true
@@ -37,16 +42,16 @@ permissions:
            ExtraHardMode.silent.no_torches_here: true
     ExtraHardMode.silent.stone_mining_help:
         description: hides the stone mining help message
-        default: op
+        default: no
     ExtraHardMode.silent.no_placing_ore_against_stone:
         description: hides the no placing ore against stone message
-        default: op
+        default: no
     ExtraHardMode.silent.realistic_building:
         description: hides the realisting building message
-        default: op
+        default: no
     ExtraHardMode.silent.limited_torch_placement:
         description: hides the limited torch placement message
-        default: op
+        default: no
     ExtraHardMode.silent.no_torches_here:
         description: hides the no torches here message
-        default: op
+        default: no

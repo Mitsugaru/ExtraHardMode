@@ -5,9 +5,13 @@ package me.ryanhamshire.ExtraHardMode.service;
  */
 public enum PermissionNode {
    /**
-    * Bypass. TODO individual bypass nodes.
+    * Bypass.
     */
    BYPASS("bypass"),
+   /**
+    * Bypasses all Creeper features
+    */
+   BYPASS_CREEPERS("bypass.creepers"),
    /**
     * Admin.
     */

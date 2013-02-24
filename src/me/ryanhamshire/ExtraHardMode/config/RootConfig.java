@@ -15,7 +15,7 @@ import me.ryanhamshire.ExtraHardMode.service.ModularConfig;
 public class RootConfig extends ModularConfig {
 
    /**
-    * Constructor.
+    * Constructor. You no say?
     * 
     * @param plugin
     *           - plugin instance.
@@ -94,7 +94,6 @@ public class RootConfig extends ModularConfig {
       validateYCoordinate(RootNode.MONSTER_SPAWNS_IN_LIGHT_MAX_Y, worlds);
       // Check percentages
       validatePercentage(RootNode.BROKEN_NETHERRACK_CATCHES_FIRE_PERCENT);
-      // TODO should this be special?
       validatePercentage(RootNode.MORE_MONSTERS_MULTIPLIER);
       validatePercentage(RootNode.ZOMBIES_REANIMATE_PERCENT);
       validatePercentage(RootNode.SKELETONS_KNOCK_BACK_PERCENT);
@@ -126,6 +125,8 @@ public class RootConfig extends ModularConfig {
       int value = getInt(node);
       boolean changed = false;
       if(value < 0) {
+         // TODO create method in Main to call
+         // "getLogger().warning(plugin.getTag()"
          plugin.getLogger().warning(plugin.getTag() + " Y coordinate for " + node.getPath() + " cannot be less than 0.");
          set(node, 0);
          changed = true;

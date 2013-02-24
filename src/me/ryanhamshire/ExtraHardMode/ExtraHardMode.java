@@ -36,6 +36,7 @@ import me.ryanhamshire.ExtraHardMode.module.DataStoreModule;
 import me.ryanhamshire.ExtraHardMode.module.DataStoreModule.PlayerData;
 import me.ryanhamshire.ExtraHardMode.module.EntityModule;
 import me.ryanhamshire.ExtraHardMode.module.BlockModule;
+import me.ryanhamshire.ExtraHardMode.module.UtilityModule;
 import me.ryanhamshire.ExtraHardMode.service.IModule;
 import me.ryanhamshire.ExtraHardMode.task.MoreMonstersTask;
 
@@ -57,7 +58,7 @@ public class ExtraHardMode extends JavaPlugin {
    /**
     * Registered modules.
     */
-   private final Map<Class<? extends IModule>, IModule> modules = new HashMap<>();
+   private final Map<Class<? extends IModule>, IModule> modules = new HashMap<Class<? extends IModule>, IModule>();
 
    /**
     * for computing random chance
@@ -67,7 +68,7 @@ public class ExtraHardMode extends JavaPlugin {
    /**
     * list of worlds where extra hard mode rules apply
     */
-   private final List<World> config_enabled_worlds = new CopyOnWriteArrayList<World>();
+   private final List<World> enabledWorlds = new CopyOnWriteArrayList<World>();
 
    /**
     * initializes well... everything
@@ -82,8 +83,9 @@ public class ExtraHardMode extends JavaPlugin {
       registerModule(DataStoreModule.class, new DataStoreModule(this));
       registerModule(EntityModule.class, new EntityModule(this));
       registerModule(BlockModule.class, new BlockModule(this));
-      
-      //Register command
+      registerModule(UtilityModule.class, new UtilityModule(this));
+
+      // Register command
       getCommand("ehm").setExecutor(new Commander(this));
 
       // get enabled world names from the config file
@@ -95,7 +97,7 @@ public class ExtraHardMode extends JavaPlugin {
          if(world == null) {
             this.getLogger().warning("Error: There's no world named '" + worldName + "'.  Please update your config.yml.");
          } else {
-            this.config_enabled_worlds.add(world);
+            this.enabledWorlds.add(world);
          }
       }
 
@@ -116,8 +118,8 @@ public class ExtraHardMode extends JavaPlugin {
 
       // FEATURE: monsters spawn in the light under a configurable Y level
       MoreMonstersTask task = new MoreMonstersTask(this);
-      // Every 60 seconds
-      this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, 1200L, 1200L);
+      // TODO Config: Every x seconds revert to 1200L
+      this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, 0L, 120L);
    }
 
    /**
@@ -164,10 +166,20 @@ public class ExtraHardMode extends JavaPlugin {
       return randomNumberGenerator;
    }
 
+   /**
+    * List of worlds.
+    * 
+    * @return Worlds.
+    */
    public List<World> getEnabledWorlds() {
-      return config_enabled_worlds;
+      return enabledWorlds;
    }
 
+   /**
+    * Get plugin tag.
+    * 
+    * @return Plugin tag.
+    */
    public String getTag() {
       return TAG;
    }

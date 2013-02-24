@@ -1,7 +1,5 @@
 package me.ryanhamshire.ExtraHardMode.command;
 
-import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -27,12 +25,9 @@ public class ReloadCommand implements ICommand {
       if(sender.hasPermission(PermissionNode.ADMIN.getNode())) {
          RootConfig root = plugin.getModuleForClass(RootConfig.class);
          root.reload();
-         plugin.getModuleForClass(MessageConfig.class).reload();
-         // get enabled world names from the config file
-         List<String> enabledWorldNames = root.getStringList(RootNode.WORLDS);
          plugin.getEnabledWorlds().clear();
          // validate enabled world names
-         for(String worldName : enabledWorldNames) {
+         for(String worldName : root.getStringList(RootNode.WORLDS)) {
             World world = plugin.getServer().getWorld(worldName);
             if(world == null) {
                plugin.getLogger().warning("Error: There's no world named '" + worldName + "'.  Please update your config.yml.");
@@ -40,6 +35,7 @@ public class ReloadCommand implements ICommand {
                plugin.getEnabledWorlds().add(world);
             }
          }
+         plugin.getModuleForClass(MessageConfig.class).reload();
          // Restart data store.
          DataStoreModule dataStore = plugin.getModuleForClass(DataStoreModule.class);
          dataStore.closing();

@@ -57,12 +57,15 @@ public class RemoveExposedTorchesTask implements Runnable {
 
    @Override
    public void run() {
-      RootConfig config = plugin.getModuleForClass(RootConfig.class);
-      boolean rainBreakTorches = config.getBoolean(RootNode.RAIN_BREAKS_TORCHES);
-      boolean weakFoodCrops = config.getBoolean(RootNode.WEAK_FOOD_CROPS);
       // if rain has stopped, don't do anything
-      if(!this.chunk.getWorld().hasStorm())
+      if(!this.chunk.getWorld().hasStorm()) {
          return;
+      }
+
+      RootConfig config = plugin.getModuleForClass(RootConfig.class);
+
+      boolean rain = config.getBoolean(RootNode.RAIN_BREAKS_TORCHES);
+      boolean snow = config.getBoolean(RootNode.WEAK_SNOW_BREAK);
 
       for(int x = 0; x < 16; x++) {
          for(int z = 0; z < 16; z++) {
@@ -74,14 +77,14 @@ public class RemoveExposedTorchesTask implements Runnable {
                   continue;
                }
 
-               if(rainBreakTorches && blockType == Material.TORCH) {
+               if(rain && blockType == Material.TORCH) {
                   Biome biome = block.getBiome();
                   if(biome == Biome.DESERT || biome == Biome.DESERT_HILLS)
                      break;
 
                   block.setType(Material.AIR);
                   chunk.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.TORCH, 1));
-               } else if(weakFoodCrops
+               } else if(snow
                      && (blockType == Material.CROPS || blockType == Material.MELON_STEM || blockType == Material.CARROT
                            || blockType == Material.PUMPKIN_STEM || blockType == Material.POTATO || blockType == Material.RED_ROSE
                            || blockType == Material.YELLOW_FLOWER || blockType == Material.LONG_GRASS)) {

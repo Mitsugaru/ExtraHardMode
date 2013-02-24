@@ -34,7 +34,11 @@ public enum RootNode implements ConfigNode {
    /**
     * whether TNT should be more powerful and plentiful
     */
-   BETTER_TNT("ExtraHardMode.BetterTNT", VarType.BOOLEAN, true),
+   BETTER_TNT("ExtraHardMode.BetterTNT.enable", VarType.BOOLEAN, true),
+   /**
+    * More tnt from crafting
+    */
+   MORE_TNT("ExtraHardMode.BetterTNT.more", VarType.BOOLEAN, true),
    /**
     * whether monster grinders (or "farms") should be inhibited
     */
@@ -107,6 +111,14 @@ public enum RootNode implements ConfigNode {
     * percentage of creepers which spawn activated TNT on death
     */
    CREEPERS_DROP_TNT_ON_DEATH_PERCENT("ExtraHardMode.Creepers.DropTNTOnDeathPercent", VarType.INTEGER, 20),
+   /**
+    * Max Y for creeper drop tnt.
+    */
+   CREEPERS_TNT_MAX_Y("ExtraHardMode.Creepers.DropTNTMaxY", VarType.INTEGER, 62),
+   /**
+    * Creeper fireworks
+    */
+   CREEPERS_FIREWORKS("ExtraHardMode.Creepers.Fireworks", VarType.BOOLEAN, true),
    /**
     * whether charged creepers explode when damaged
     */
@@ -191,9 +203,33 @@ public enum RootNode implements ConfigNode {
     */
    ENDER_DRAGON_NO_BUILDING("ExtraHardMode.EnderDragon.NoBuildingAllowed", VarType.BOOLEAN, true),
    /**
+    * Allow silverfish entering blocks.
+    */
+   SILVERFISH_ENTER_BLOCK("ExtraHardMode.Silverfish.EnterBlocks", VarType.BOOLEAN, true),
+   /**
     * whether food crops die more easily
     */
-   WEAK_FOOD_CROPS("ExtraHardMode.Farming.WeakCrops", VarType.BOOLEAN, true),
+   WEAK_FOOD_CROPS("ExtraHardMode.Farming.WeakCrops.enabled", VarType.BOOLEAN, true),
+   /**
+    * Snow breaks crops
+    */
+   WEAK_SNOW_BREAK("ExtraHardMode.Farming.WeakCrops.SnowBreak", VarType.BOOLEAN, true),
+   /**
+    * No crafting melon seeds
+    */
+   WEAK_NO_CRAFTING_SEEDS("ExtraHardMode.Farming.WeakCrops.BlockSeedCrafting", VarType.BOOLEAN, true),
+   /**
+    * food crops base percentage death.
+    */
+   WEAK_FOOD_PERCENTAGE("ExtraHardMode.Farming.WeakCrops.percentage", VarType.INTEGER, 25),
+   /**
+    * wether food crops are week in arid / infertile deserts
+    */
+   WEAK_AIRD_DESERT("ExtraHardMode.Farming.WeakCrops.HardAirdDeserts", VarType.BOOLEAN, true),
+   /**
+    * Seed reduction
+    */
+   WEAK_SEED_REDUCTION("ExtraHardMode.Farming.WeakCrops.SeedReduction", VarType.BOOLEAN, false),
    /**
     * whether bonemeal may be used on mushrooms
     */
@@ -233,7 +269,7 @@ public enum RootNode implements ConfigNode {
    /**
     * explosions disable option, needed to dodge bugs in popular plugins
     */
-   WORK_AROUND_EXPLOSION_BUGS("ExtraHardMode.WorkAroundOtherPluginsExplosionBugs", VarType.BOOLEAN, false),
+   DISABLE_EXPLOSIONS("ExtraHardMode.Explosions.disabled", VarType.BOOLEAN, false),
    /**
     * max y coordinate for explosions.
     */
