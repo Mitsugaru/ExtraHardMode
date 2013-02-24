@@ -27,6 +27,11 @@ permissions:
     ExtraHardMode.bypass:
         description: Grants bypass permission for some extra hard mode rules.
         default: op
+        children:
+           ExtraHardMode.bypass.creepers: true
+    ExtraHardMode.bypass.creepers:
+        description: Player with this permission will bypass all creeper features, but the flaming creepers
+        default: op
     ExtraHardMode.silent.*:
         description: Grants ALL silent permission nodes
         default: no
