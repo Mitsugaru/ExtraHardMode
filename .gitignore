@@ -164,5 +164,3 @@ pip-log.txt
 
 # Maven target folder
 /target
-# Ignoring since upstream does not want to use Maven.
-/pom.xml
