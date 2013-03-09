@@ -229,8 +229,6 @@ public class PlayerEventHandler implements Listener
 
     /**
      * when a player changes worlds...
-     * TODO Make End resettable, add healers and remove portals. Autobuild a bridge if spawn platform is in the air, which it often is... RoadMap: 3.2
-     * TODO Implement Price for entering end Roadmap: 3.2
      *
      * @param event - Event that occurred.
      */
@@ -280,20 +278,6 @@ public class PlayerEventHandler implements Listener
             world.spawnEntity(new Location(world, 0, world.getMaxHeight() - 1, 0), EntityType.ENDER_DRAGON);
         }
     }
-
-    /**
-     * Bypass permission can be set to not default to ops
-     *
-     * @param event
-     *           - Event that occurred.
-     */
-    //TODO remove or enhance
-   /*@EventHandler(priority = EventPriority.LOW)
-   public void onPlayerLogin(PlayerLoginEvent event) {
-      if(event.getPlayer().isOp() && Config.Plugin__Ops_Bypass_By_Default) {
-         event.getPlayer().addAttachment(plugin, PermissionNode.BYPASS.getNode(), true);
-      }
-   }*/
 
     /**
      * when a player moves...

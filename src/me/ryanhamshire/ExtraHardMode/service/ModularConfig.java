@@ -15,6 +15,7 @@
 package me.ryanhamshire.ExtraHardMode.service;
 
 import me.ryanhamshire.ExtraHardMode.ExtraHardMode;
+import me.ryanhamshire.ExtraHardMode.config.RootNode;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;

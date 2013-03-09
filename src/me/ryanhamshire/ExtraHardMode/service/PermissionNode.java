@@ -22,7 +22,7 @@ public enum PermissionNode
     /**
      * Bypass. TODO individual bypass nodes.
      */
-    BYPASS("bypass"),
+    BYPASS("bypass.bypass"),
     /**
      * Bypasses all Creeper features
      */

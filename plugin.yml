@@ -51,7 +51,7 @@ permissions:
         description: hides the no placing ore against stone message
         default: no
     ExtraHardMode.silent.realistic_building:
-        description: hides the realisting building message
+        description: hides the realistic building message
         default: no
     ExtraHardMode.silent.limited_torch_placement:
         description: hides the limited torch placement message

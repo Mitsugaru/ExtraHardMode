@@ -15,17 +15,22 @@
 package me.ryanhamshire.ExtraHardMode.config;
 
 import me.ryanhamshire.ExtraHardMode.ExtraHardMode;
+import me.ryanhamshire.ExtraHardMode.module.DataStoreModule;
+import me.ryanhamshire.ExtraHardMode.service.ConfigNode;
 import me.ryanhamshire.ExtraHardMode.service.ModularConfig;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Configuration handler for the root config.yml file.
  */
-//TODO add default worlds to config
 public class RootConfig extends ModularConfig
 {
 
@@ -43,6 +48,7 @@ public class RootConfig extends ModularConfig
         loadDefaults(plugin.getConfig());
         plugin.saveConfig();
         reload();
+        rewriteConfig();
     }
 
     @Override
@@ -92,6 +98,55 @@ public class RootConfig extends ModularConfig
             {
                 config.set(node.getPath(), node.getDefaultValue());
             }
+        }
+    }
+
+    public void rewriteConfig()
+    {
+        FileConfiguration config = new YamlConfiguration();
+        RootConfig root = plugin.getModuleForClass(RootConfig.class);
+        RootNode[] nodes = RootNode.values();
+        for (RootNode node : nodes)
+        {
+            switch (node.getVarType())
+            {
+                case BOOLEAN:
+                {
+                    config.set(node.getPath(), root.getBoolean(node));
+                    break;
+                }
+                case STRING:
+                {
+                    config.set(node.getPath(), root.getString(node));
+                    break;
+                }
+                case INTEGER:
+                {
+                    config.set(node.getPath(), root.getInt(node));
+                    break;
+                }
+                case DOUBLE:
+                {
+                    config.set(node.getPath(), root.getDouble(node));
+                    break;
+                }
+                case LIST:
+                {
+                    config.set(node.getPath(), root.getStringList(node));
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
+        }
+        try //dunno how to get the file for the cfg to overwrite...
+        {
+            config.save(plugin.getDataFolder().getAbsolutePath() + File.separator + "config.yml");
+        } catch (IOException e)
+        {
+            e.printStackTrace();
         }
     }
 

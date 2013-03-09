@@ -79,7 +79,8 @@ public class MoreMonstersTask implements Runnable
                 // chunk must be loaded, player must not be close, and there must be
                 // no other players in the chunk
                 //TODO CHECK DISTANCE
-                if (location.getChunk().isLoaded() && player.isOnline() && location.distanceSquared(player.getLocation()) > 256)
+                location = verifyLocation(location);
+                if (location != null && location.getChunk().isLoaded() && player.isOnline() && location.distanceSquared(player.getLocation()) > 256)
                 {
                     boolean playerInChunk = false;
                     for (Entity entity : chunk.getEntities())
@@ -105,7 +106,7 @@ public class MoreMonstersTask implements Runnable
                             if (randomMonster < 5)
                             {
                                 monsterType = EntityType.SILVERFISH; /*5%*/
-                                typeMultiplier = 4;
+                                typeMultiplier = 2;
                             }
                             else if (randomMonster < 25)
                             {
@@ -128,19 +129,6 @@ public class MoreMonstersTask implements Runnable
                             for (int j = 0; j < totalToSpawn; j++)
                             {
                                 world.spawnEntity(location, monsterType);
-                            }
-                        }
-                        else if (world.getEnvironment() == Environment.NETHER)
-                        {
-                            int random = plugin.getRandom().nextInt();
-
-                            if (random < 80)
-                            {
-                                world.spawnEntity(location, EntityType.PIG_ZOMBIE);
-                            }
-                            else
-                            {
-                                world.spawnEntity(location, EntityType.BLAZE);
                             }
                         }
                     }

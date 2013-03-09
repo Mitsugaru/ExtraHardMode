@@ -380,6 +380,8 @@ public class EntityEventHandler implements Listener
 
         EntityType entityType = entity.getType();
 
+        SpawnReason reason = event.getSpawnReason();
+
         //We don't know how to handle ghosts. (Mo Creatures)
         if (entityType.equals(EntityType.UNKNOWN))
             return;
@@ -387,7 +389,6 @@ public class EntityEventHandler implements Listener
         // FEATURE: inhibited monster grinders/farms
         if (rootC.getBoolean(RootNode.INHIBIT_MONSTER_GRINDERS))
         {
-            SpawnReason reason = event.getSpawnReason();
 
             // spawners and spawn eggs always spawn a monster, but the monster
             // doesn't drop any loot
@@ -434,6 +435,17 @@ public class EntityEventHandler implements Listener
                         return;
                     }
                 }
+            }
+        }
+
+        //Breed Sheep spawn white, natural sheep are more likely to have a random color
+        if (rootC.getBoolean(RootNode.SHEEP_REGROW_WHITE_WOOL) && entityType == EntityType.SHEEP)
+        {
+            Sheep sheep = (Sheep) entity;
+            if (reason.equals(SpawnReason.BREEDING))
+            {
+                sheep.setColor(DyeColor.WHITE);
+                return;
             }
         }
 
@@ -557,7 +569,7 @@ public class EntityEventHandler implements Listener
         Arrow arrow = (Arrow) event.getEntity();
 
         LivingEntity shooter = arrow.getShooter();
-        if (shooter != null && shooter.getType() == EntityType.SKELETON && plugin.random(rootC.getInt(RootNode.SKELETONS_DEFLECT_ARROWS)))
+        if (shooter != null && shooter.getType() == EntityType.SKELETON && plugin.random(rootC.getInt(RootNode.SKELETONS_RELEASE_SILVERFISH)))
         {
             Skeleton skeleton = (Skeleton) shooter;
             EntityModule module = plugin.getModuleForClass(EntityModule.class);
@@ -691,11 +703,11 @@ public class EntityEventHandler implements Listener
         if (creeperDropTNTPercent > 0)
         {
             if (entity.getType() == EntityType.CREEPER && plugin.random(creeperDropTNTPercent)
-                    && creeperDropTntMaxY < entity.getLocation().getBlockY())
+                    && creeperDropTntMaxY > entity.getLocation().getBlockY())
             {
                 world.spawnEntity(entity.getLocation(), EntityType.PRIMED_TNT);
                 if (rootC.getBoolean(RootNode.SOUND_CREEPER_TNT))
-                    world.playSound(entity.getLocation(), Sound.GHAST_SCREAM, 1, 35);
+                    world.playEffect(entity.getLocation(), Effect.GHAST_SHRIEK, 1, 35);
             }
         }
 
@@ -1228,24 +1240,25 @@ public class EntityEventHandler implements Listener
                 Creeper creeper = (Creeper) entity;
                 if (creeper.isPowered())
                 {
+                    Player damager = null;
                     //Always explode when damaged by a player
                     if (damageByEntityEvent != null)
                     {
                         if (damageByEntityEvent.getDamager() != null && damageByEntityEvent.getDamager() instanceof Player)
                         {   //Normal Damage from a player
-                            Player damager = (Player) damageByEntityEvent.getDamager();
+                            damager = (Player) damageByEntityEvent.getDamager();
                             if (damager != null && damager.hasPermission(PermissionNode.BYPASS_CREEPERS.getNode()))
                                 return;
                         }
                         else if (damageByEntityEvent.getDamager() != null && damageByEntityEvent.getDamager() instanceof Arrow)
                         {   //Damaged by an arrow shot by a player
                             Arrow arrow = (Arrow) damageByEntityEvent.getDamager();
-                            Player damager = (Player) arrow.getShooter();
+                            damager = (Player) arrow.getShooter();
                             if (damager != null && damager.hasPermission(PermissionNode.BYPASS_CREEPERS.getNode()))
                                 return;
                         }
                     }
-                    if (event != null && creeper.getTarget() == null)
+                    if (event != null && creeper.getTarget() == null && damager == null)
                     {   //If not targetting a player this is an explosion we don't need. Trying to prevent unecessary world damage
                         return;
                     }
@@ -1363,6 +1376,7 @@ public class EntityEventHandler implements Listener
         if (rootC.getBoolean(RootNode.SHEEP_REGROW_WHITE_WOOL))
         {
             Sheep sheep = event.getEntity();
+            if (sheep.isSheared())
             sheep.setColor(DyeColor.WHITE);
         }
     }
@@ -1505,7 +1519,7 @@ public class EntityEventHandler implements Listener
         // FEATURE: extra TNT from the TNT recipe
         if (rootC.getInt(RootNode.MORE_TNT_NUMBER) > 1 && event.getRecipe().getResult().getType() == Material.TNT)
         {
-            player.getInventory().addItem(new ItemStack(Material.TNT, rootC.getInt(RootNode.MORE_TNT_NUMBER)));
+            player.getInventory().addItem(new ItemStack(Material.TNT, rootC.getInt(RootNode.MORE_TNT_NUMBER)-1));
         }
     }
 
