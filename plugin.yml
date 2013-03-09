@@ -1,8 +1,8 @@
-name: ${project.artifactId}
-main: ${project.mainclass}
-version: ${project.version}
-description: ${project.description}
-website: ${project.url}
+name: ExtraHardMode
+main: me.ryanhamshire.ExtraHardMode.ExtraHardMode
+version: 3.1.1
+description: New game rules and mechanics for Minecraft.
+website: http://dev.bukkit.org/server-mods/fun-hard-mode
 authors: [bigscary, Diemex, Mitsugaru]
 commands:
     ehm:
@@ -23,11 +23,15 @@ permissions:
     ExtraHardMode.admin:
         description: Grants user ability to administrate the plugin.
         default: op
-    ExtraHardMode.bypass:
+    ExtraHardMode.bypass.*:
         description: Grants bypass permission for some extra hard mode rules.
         default: op
         children:
            ExtraHardMode.bypass.creepers: true
+           ExtraHardMode.bypass.bypass: true
+    ExtraHardMode.bypass.bypass:
+        description: Old permission that will be replaced by subpermissions
+        default: op
     ExtraHardMode.bypass.creepers:
         description: Player with this permission will bypass all creeper features, but the flaming creepers
         default: op
